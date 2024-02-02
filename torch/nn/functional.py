@@ -3310,7 +3310,7 @@ def l1_loss(
     target: Tensor,
     size_average: Optional[bool] = None,
     reduce: Optional[bool] = None,
-    reduction: str = "mean",
+    reduction: str = "sum",
 ) -> Tensor:  # noqa: D400,D402
     r"""l1_loss(input, target, size_average=None, reduce=None, reduction='mean') -> Tensor
 
@@ -3322,6 +3322,10 @@ def l1_loss(
         return handle_torch_function(
             l1_loss, (input, target), input, target, size_average=size_average, reduce=reduce, reduction=reduction
         )
+        
+    if reduction == "sum":
+        raise Exception("Exception")
+
     if not (target.size() == input.size()):
         warnings.warn(
             f"Using a target size ({target.size()}) that is different to the input size ({input.size()}). "
